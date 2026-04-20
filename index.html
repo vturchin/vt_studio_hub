@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VT AI Studio</title>
+  <style>
+    :root {
+      --bg:      #0a0a0a;
+      --surface: #111111;
+      --border:  #1f1f1f;
+      --border2: #2a2a2a;
+      --text:    #dcdcdc;
+      --muted:   #7a7a7a;
+      --dim:     #3a3a3a;
+
+      --veevee:  #22c55e;
+      --stage:   #f59e0b;
+      --fal:     #8b5cf6;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', system-ui, -apple-system, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+    }
+
+    .wordmark {
+      font-size: 11px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 8px;
+      font-family: 'JetBrains Mono', 'Fira Mono', monospace;
+    }
+
+    h1 {
+      font-size: 32px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      margin-bottom: 6px;
+    }
+
+    .tagline {
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 48px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      width: 100%;
+      max-width: 860px;
+    }
+
+    @media (max-width: 680px) {
+      .grid { grid-template-columns: 1fr; max-width: 380px; }
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      cursor: pointer;
+      transition: border-color 0.15s, transform 0.12s, box-shadow 0.15s;
+      text-decoration: none;
+      color: inherit;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transition: opacity 0.15s;
+      pointer-events: none;
+    }
+
+    .card:hover {
+      transform: translateY(-2px);
+    }
+
+    .card.veevee  { --accent: var(--veevee); }
+    .card.stage   { --accent: var(--stage);  }
+    .card.fal     { --accent: var(--fal);    }
+
+    .card:hover   { border-color: var(--accent); box-shadow: 0 8px 32px -8px color-mix(in srgb, var(--accent) 30%, transparent); }
+    .card::before { background: radial-gradient(ellipse at 50% 0%, color-mix(in srgb, var(--accent) 8%, transparent), transparent 70%); }
+    .card:hover::before { opacity: 1; }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: var(--accent);
+      flex-shrink: 0;
+    }
+
+    .card-title {
+      font-size: 16px;
+      font-weight: 600;
+      letter-spacing: -0.2px;
+    }
+
+    .card-desc {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.55;
+      flex: 1;
+    }
+
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 4px;
+    }
+
+    .port-badge {
+      font-family: 'JetBrains Mono', 'Fira Mono', monospace;
+      font-size: 10px;
+      color: var(--dim);
+      background: var(--border);
+      border: 1px solid var(--border2);
+      padding: 2px 7px;
+      border-radius: 4px;
+    }
+
+    .status {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--dim);
+      transition: background 0.3s;
+    }
+    .status.live { background: #22c55e; box-shadow: 0 0 6px #22c55e88; }
+    .status.dead { background: #ef444488; }
+
+    .divider {
+      width: 100%;
+      max-width: 860px;
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 40px 0 24px;
+    }
+
+    .launch-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: transparent;
+      border: 1px solid var(--border2);
+      color: var(--muted);
+      font-family: 'JetBrains Mono', 'Fira Mono', monospace;
+      font-size: 11px;
+      padding: 8px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: border-color 0.15s, color 0.15s;
+      text-decoration: none;
+    }
+
+    .launch-btn:hover { border-color: var(--text); color: var(--text); }
+
+    .footer-row {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .footer-note {
+      margin-top: 20px;
+      font-size: 11px;
+      color: var(--dim);
+      font-family: 'JetBrains Mono', 'Fira Mono', monospace;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <p class="wordmark">Vadim Turchin · AI Studio Suite</p>
+  <h1>VT Studio</h1>
+  <p class="tagline">Three tools. One launch page.</p>
+
+  <div class="grid">
+
+    <!-- VeeVee -->
+    <a class="card veevee" href="http://localhost:5173" target="_blank" id="card-veevee">
+      <div class="card-header">
+        <div class="dot"></div>
+        <span class="card-title">VeeVee</span>
+      </div>
+      <p class="card-desc">Node-based visual AI workflow studio. Wire images, videos and masks through generative models.</p>
+      <div class="card-footer">
+        <span class="port-badge">:5173</span>
+        <span class="status" id="status-veevee" title="Checking…"></span>
+      </div>
+    </a>
+
+    <!-- Stage Director -->
+    <a class="card stage" href="http://localhost:5174" target="_blank" id="card-stage">
+      <div class="card-header">
+        <div class="dot"></div>
+        <span class="card-title">Stage Director</span>
+      </div>
+      <p class="card-desc">3D scene capture and conditioning tool. Feed ControlNet passes into generative render pipelines.</p>
+      <div class="card-footer">
+        <span class="port-badge">:5174</span>
+        <span class="status" id="status-stage" title="Checking…"></span>
+      </div>
+    </a>
+
+    <!-- FAL Studio -->
+    <a class="card fal" href="http://localhost:5175" target="_blank" id="card-fal">
+      <div class="card-header">
+        <div class="dot"></div>
+        <span class="card-title">FAL Studio</span>
+      </div>
+      <p class="card-desc">Single-panel and chain-timeline generator for fal.ai models. Direct API access without wiring.</p>
+      <div class="card-footer">
+        <span class="port-badge">:5175</span>
+        <span class="status" id="status-fal" title="Checking…"></span>
+      </div>
+    </a>
+
+  </div>
+
+  <hr class="divider" />
+
+  <div class="footer-row">
+    <a class="launch-btn" href="https://github.com/vturchin/vt_VeeVee" target="_blank">⬡ vt_VeeVee</a>
+    <a class="launch-btn" href="https://github.com/vturchin/stage-director" target="_blank">⬡ stage-director</a>
+    <a class="launch-btn" href="https://github.com/vturchin/vt_fal_studio" target="_blank">⬡ vt_fal_studio</a>
+  </div>
+
+  <p class="footer-note">Run launch_all.bat (Windows) or launch_all.sh (Mac) to start all three servers</p>
+
+  <script>
+    // Ping each localhost port. fetch with no-cors can't read status from cross-origin,
+    // so we try an img load against a known static asset as a liveness probe.
+    // Simpler: just try fetch to the root — connection refused = dead, any response = live.
+    const services = [
+      { id: 'veevee', port: 5173 },
+      { id: 'stage',  port: 5174 },
+      { id: 'fal',    port: 5175 },
+    ]
+
+    async function ping(port) {
+      try {
+        const ctrl = new AbortController()
+        const t = setTimeout(() => ctrl.abort(), 1500)
+        await fetch(`http://localhost:${port}`, { mode: 'no-cors', signal: ctrl.signal })
+        clearTimeout(t)
+        return true
+      } catch {
+        return false
+      }
+    }
+
+    async function checkAll() {
+      await Promise.all(services.map(async ({ id, port }) => {
+        const el = document.getElementById(`status-${id}`)
+        if (!el) return
+        const live = await ping(port)
+        el.classList.remove('live', 'dead')
+        el.classList.add(live ? 'live' : 'dead')
+        el.title = live ? `Running on :${port}` : `Not running (:${port})`
+      }))
+    }
+
+    checkAll()
+    setInterval(checkAll, 8000) // re-check every 8s
+  </script>
+
+</body>
+</html>
