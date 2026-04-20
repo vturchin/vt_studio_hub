@@ -16,7 +16,8 @@
 
       --veevee:  #22c55e;
       --stage:   #f59e0b;
-      --fal:     #8b5cf6;
+      --fal-new: #8b5cf6;
+      --fal-leg: #ec4899;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -42,30 +43,18 @@
       font-family: 'JetBrains Mono', 'Fira Mono', monospace;
     }
 
-    h1 {
-      font-size: 32px;
-      font-weight: 700;
-      letter-spacing: -0.5px;
-      margin-bottom: 6px;
-    }
-
-    .tagline {
-      font-size: 14px;
-      color: var(--muted);
-      margin-bottom: 48px;
-    }
+    h1 { font-size: 32px; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 6px; }
+    .tagline { font-size: 14px; color: var(--muted); margin-bottom: 48px; }
 
     .grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(2, 1fr);
       gap: 16px;
       width: 100%;
-      max-width: 860px;
+      max-width: 720px;
     }
 
-    @media (max-width: 680px) {
-      .grid { grid-template-columns: 1fr; max-width: 380px; }
-    }
+    @media (max-width: 560px) { .grid { grid-template-columns: 1fr; max-width: 360px; } }
 
     .card {
       background: var(--surface);
@@ -74,7 +63,7 @@
       padding: 24px;
       display: flex;
       flex-direction: column;
-      gap: 14px;
+      gap: 12px;
       cursor: pointer;
       transition: border-color 0.15s, transform 0.12s, box-shadow 0.15s;
       text-decoration: none;
@@ -82,167 +71,114 @@
       position: relative;
       overflow: hidden;
     }
-
     .card::before {
       content: '';
-      position: absolute;
-      inset: 0;
-      opacity: 0;
-      transition: opacity 0.15s;
-      pointer-events: none;
+      position: absolute; inset: 0;
+      opacity: 0; transition: opacity 0.15s; pointer-events: none;
     }
-
-    .card:hover {
-      transform: translateY(-2px);
-    }
-
-    .card.veevee  { --accent: var(--veevee); }
-    .card.stage   { --accent: var(--stage);  }
-    .card.fal     { --accent: var(--fal);    }
-
-    .card:hover   { border-color: var(--accent); box-shadow: 0 8px 32px -8px color-mix(in srgb, var(--accent) 30%, transparent); }
+    .card:hover { transform: translateY(-2px); }
+    .card:hover { border-color: var(--accent); box-shadow: 0 8px 32px -8px color-mix(in srgb, var(--accent) 30%, transparent); }
     .card::before { background: radial-gradient(ellipse at 50% 0%, color-mix(in srgb, var(--accent) 8%, transparent), transparent 70%); }
     .card:hover::before { opacity: 1; }
 
-    .card-header {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
+    .card.veevee  { --accent: var(--veevee);  }
+    .card.stage   { --accent: var(--stage);   }
+    .card.fal-new { --accent: var(--fal-new); }
+    .card.fal-leg { --accent: var(--fal-leg); }
 
-    .dot {
-      width: 10px; height: 10px;
-      border-radius: 50%;
-      background: var(--accent);
-      flex-shrink: 0;
+    .card-header { display: flex; align-items: center; gap: 10px; }
+    .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
+    .card-title { font-size: 16px; font-weight: 600; letter-spacing: -0.2px; }
+    .card-badge {
+      font-size: 9px; font-family: 'JetBrains Mono', monospace;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--accent); background: color-mix(in srgb, var(--accent) 12%, transparent);
+      border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
+      padding: 1px 5px; border-radius: 3px; margin-left: 2px;
     }
-
-    .card-title {
-      font-size: 16px;
-      font-weight: 600;
-      letter-spacing: -0.2px;
-    }
-
-    .card-desc {
-      font-size: 12px;
-      color: var(--muted);
-      line-height: 1.55;
-      flex: 1;
-    }
-
-    .card-footer {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-top: 4px;
-    }
-
+    .card-desc { font-size: 12px; color: var(--muted); line-height: 1.55; flex: 1; }
+    .card-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 4px; }
     .port-badge {
-      font-family: 'JetBrains Mono', 'Fira Mono', monospace;
-      font-size: 10px;
-      color: var(--dim);
-      background: var(--border);
-      border: 1px solid var(--border2);
-      padding: 2px 7px;
-      border-radius: 4px;
+      font-family: 'JetBrains Mono', monospace; font-size: 10px;
+      color: var(--dim); background: var(--border);
+      border: 1px solid var(--border2); padding: 2px 7px; border-radius: 4px;
     }
-
     .status {
-      width: 8px; height: 8px;
-      border-radius: 50%;
-      background: var(--dim);
-      transition: background 0.3s;
+      width: 8px; height: 8px; border-radius: 50%; background: var(--dim); transition: background 0.3s;
     }
     .status.live { background: #22c55e; box-shadow: 0 0 6px #22c55e88; }
     .status.dead { background: #ef444488; }
 
-    .divider {
-      width: 100%;
-      max-width: 860px;
-      border: none;
-      border-top: 1px solid var(--border);
-      margin: 40px 0 24px;
-    }
+    .divider { width: 100%; max-width: 720px; border: none; border-top: 1px solid var(--border); margin: 40px 0 24px; }
 
-    .launch-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: transparent;
-      border: 1px solid var(--border2);
-      color: var(--muted);
-      font-family: 'JetBrains Mono', 'Fira Mono', monospace;
-      font-size: 11px;
-      padding: 8px 16px;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: border-color 0.15s, color 0.15s;
-      text-decoration: none;
+    .footer-row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; justify-content: center; }
+    .gh-btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: transparent; border: 1px solid var(--border2); color: var(--muted);
+      font-family: 'JetBrains Mono', monospace; font-size: 10px;
+      padding: 6px 12px; border-radius: 5px; cursor: pointer;
+      transition: border-color 0.15s, color 0.15s; text-decoration: none;
     }
-
-    .launch-btn:hover { border-color: var(--text); color: var(--text); }
-
-    .footer-row {
-      display: flex;
-      gap: 12px;
-      align-items: center;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-
-    .footer-note {
-      margin-top: 20px;
-      font-size: 11px;
-      color: var(--dim);
-      font-family: 'JetBrains Mono', 'Fira Mono', monospace;
-      text-align: center;
-    }
+    .gh-btn:hover { border-color: var(--text); color: var(--text); }
+    .footer-note { margin-top: 18px; font-size: 11px; color: var(--dim); font-family: 'JetBrains Mono', monospace; text-align: center; }
   </style>
 </head>
 <body>
 
   <p class="wordmark">Vadim Turchin · AI Studio Suite</p>
   <h1>VT Studio</h1>
-  <p class="tagline">Three tools. One launch page.</p>
+  <p class="tagline">Four tools. One launch page.</p>
 
   <div class="grid">
 
-    <!-- VeeVee -->
-    <a class="card veevee" href="http://localhost:5173" target="_blank" id="card-veevee">
+    <a class="card veevee" href="http://localhost:5173" target="_blank">
       <div class="card-header">
         <div class="dot"></div>
         <span class="card-title">VeeVee</span>
+        <span class="card-badge">primary</span>
       </div>
-      <p class="card-desc">Node-based visual AI workflow studio. Wire images, videos and masks through generative models.</p>
+      <p class="card-desc">Node-based visual AI workflow studio. Wire images, videos and masks through generative models on fal.ai.</p>
       <div class="card-footer">
         <span class="port-badge">:5173</span>
-        <span class="status" id="status-veevee" title="Checking…"></span>
+        <span class="status" id="status-veevee"></span>
       </div>
     </a>
 
-    <!-- Stage Director -->
-    <a class="card stage" href="http://localhost:5174" target="_blank" id="card-stage">
+    <a class="card stage" href="http://localhost:5174" target="_blank">
       <div class="card-header">
         <div class="dot"></div>
         <span class="card-title">Stage Director</span>
       </div>
-      <p class="card-desc">3D scene capture and conditioning tool. Feed ControlNet passes into generative render pipelines.</p>
+      <p class="card-desc">3D scene capture and ControlNet conditioning. Feed depth, normals and reference passes into GenAI render pipelines.</p>
       <div class="card-footer">
         <span class="port-badge">:5174</span>
-        <span class="status" id="status-stage" title="Checking…"></span>
+        <span class="status" id="status-stage"></span>
       </div>
     </a>
 
-    <!-- FAL Studio -->
-    <a class="card fal" href="http://localhost:5175" target="_blank" id="card-fal">
+    <a class="card fal-new" href="http://localhost:5175" target="_blank">
       <div class="card-header">
         <div class="dot"></div>
         <span class="card-title">FAL Studio</span>
+        <span class="card-badge">new</span>
       </div>
-      <p class="card-desc">Single-panel and chain-timeline generator for fal.ai models. Direct API access without wiring.</p>
+      <p class="card-desc">TypeScript rewrite of FAL Studio. Single-panel and chain-timeline generation with a full model registry.</p>
       <div class="card-footer">
         <span class="port-badge">:5175</span>
-        <span class="status" id="status-fal" title="Checking…"></span>
+        <span class="status" id="status-fal-new"></span>
+      </div>
+    </a>
+
+    <a class="card fal-leg" href="http://localhost:3737" target="_blank">
+      <div class="card-header">
+        <div class="dot"></div>
+        <span class="card-title">FAL Studio</span>
+        <span class="card-badge">legacy</span>
+      </div>
+      <p class="card-desc">Original Express + JSX version. Stable, battle-tested. Critique nodes, auto-layout, glow wires, sticky notes.</p>
+      <div class="card-footer">
+        <span class="port-badge">:3737</span>
+        <span class="status" id="status-fal-leg"></span>
       </div>
     </a>
 
@@ -251,23 +187,22 @@
   <hr class="divider" />
 
   <div class="footer-row">
-    <a class="launch-btn" href="https://github.com/vturchin/vt_VeeVee" target="_blank">⬡ vt_VeeVee</a>
-    <a class="launch-btn" href="https://github.com/vturchin/stage-director" target="_blank">⬡ stage-director</a>
-    <a class="launch-btn" href="https://github.com/vturchin/vt_fal_studio" target="_blank">⬡ vt_fal_studio</a>
+    <a class="gh-btn" href="https://github.com/vturchin/vt_VeeVee" target="_blank">⬡ vt_VeeVee</a>
+    <a class="gh-btn" href="https://github.com/vturchin/stage-director" target="_blank">⬡ stage-director</a>
+    <a class="gh-btn" href="https://github.com/vturchin/vt_fal_studio/tree/master" target="_blank">⬡ vt_fal_studio</a>
+    <a class="gh-btn" href="https://github.com/vturchin/vt_fal_studio/tree/experimental" target="_blank">⬡ vt_fal_studio (exp)</a>
+    <a class="gh-btn" href="https://github.com/vturchin/vt_studio_hub" target="_blank">⬡ vt_studio_hub</a>
   </div>
 
-  <p class="footer-note">Run launch_all.bat (Windows) or launch_all.sh (Mac) to start all three servers</p>
+  <p class="footer-note">launch_all.bat (Windows) · launch_all.sh (Mac) — starts all four servers and opens this page</p>
 
   <script>
-    // Ping each localhost port. fetch with no-cors can't read status from cross-origin,
-    // so we try an img load against a known static asset as a liveness probe.
-    // Simpler: just try fetch to the root — connection refused = dead, any response = live.
     const services = [
-      { id: 'veevee', port: 5173 },
-      { id: 'stage',  port: 5174 },
-      { id: 'fal',    port: 5175 },
+      { id: 'veevee',  port: 5173 },
+      { id: 'stage',   port: 5174 },
+      { id: 'fal-new', port: 5175 },
+      { id: 'fal-leg', port: 3737 },
     ]
-
     async function ping(port) {
       try {
         const ctrl = new AbortController()
@@ -275,24 +210,19 @@
         await fetch(`http://localhost:${port}`, { mode: 'no-cors', signal: ctrl.signal })
         clearTimeout(t)
         return true
-      } catch {
-        return false
-      }
+      } catch { return false }
     }
-
     async function checkAll() {
       await Promise.all(services.map(async ({ id, port }) => {
         const el = document.getElementById(`status-${id}`)
         if (!el) return
         const live = await ping(port)
-        el.classList.remove('live', 'dead')
-        el.classList.add(live ? 'live' : 'dead')
+        el.className = 'status ' + (live ? 'live' : 'dead')
         el.title = live ? `Running on :${port}` : `Not running (:${port})`
       }))
     }
-
     checkAll()
-    setInterval(checkAll, 8000) // re-check every 8s
+    setInterval(checkAll, 8000)
   </script>
 
 </body>
