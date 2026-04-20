@@ -49,8 +49,8 @@ if exist "%FAL_LEG_DIR%\server.js" (
 ) else ( echo  [SKIP] FAL Studio (legacy) not found at %FAL_LEG_DIR% )
 
 echo.
-echo  Waiting 4 seconds for servers to come up...
-timeout /t 4 /nobreak >nul
+echo  Waiting 8 seconds for servers to come up...
+timeout /t 8 /nobreak >nul
 start "" "%HUB_DIR%index.html"
 
 echo.
